@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User List</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        table { width: 50%; margin: auto; border-collapse: collapse; }
+        th, td { padding: 10px; border: 1px solid black; }
+        th { background: #4CAF50; color: white; }
+    </style>
+</head>
+<body>
+    <h2>User List</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="userTable"></tbody>
+    </table>
+
+    <script>
+        // Attempt to fetch data from 'http://localhost:5000/users' API endpoint
+        fetch('http://localhost:5000/users')
+            .then(response => {
+                // Once a response is received from the server, convert it to JSON format
+                return response.json();
+            })
+            .then(data => {
+                // Get the <tbody> element with the id 'userTable' from the page
+                let tableBody = document.getElementById('userTable');
+    
+                // Loop through each user in the 'data' array and add them as rows to the table
+                data.forEach(user => {
+                    // Create a new row with the user's ID, name, and email
+                    let row = `<tr>
+                        <td>${user.id}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                    </tr>`;
+                    // Add the created row to the table's body
+                    tableBody.innerHTML += row;
+                });
+            })
+            .catch(error => {
+                // If there's an error while fetching data, log it to the console
+                console.error('Error fetching data:', error);
+            });
+    </script>
+    
+</body>
+</html>
